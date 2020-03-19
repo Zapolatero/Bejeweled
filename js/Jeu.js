@@ -39,6 +39,7 @@ class Jeu{
                 document.getElementById("titre").innerHTML = message;
 
                 var affichage = document.getElementById("affichage-scores");
+                affichage.innerHTML = "";
                 for (let i = 0; i < meilleursScores.length; i++) {
                     affichage.innerHTML += "<p>"+meilleursScores[i]+" - "+noms[i]+"</p>";
                 }
@@ -88,7 +89,7 @@ class Jeu{
         }
         document.getElementById("message").innerHTML = "Game over !";
         console.log(document.getElementById("message").innerHTML)
-        //this.enregistrerScores();
+        this.enregistrerScores();
     }
 
     start_countdown(){
@@ -117,10 +118,13 @@ class Jeu{
         document.getElementById("pbar").value+=10;
     }
 
+    //verifie si des autres combinaisons sont apparues apres un deplacement d'images du à  l alignement d'au moins trois gemmes
+    //si une autre combinaison est trouvée, la fonction se rappelle pour trouver d atres combinaisons suite à ce nouveau changement
     verifier(){
         for (let i = 0; i < document.getElementsByTagName("img").length; i++) {
-            this.possibilite(document.getElementsByTagName("img")[i]);
-            this.possibiliteVert(document.getElementsByTagName("img")[i])
+            if (this.possibilite(document.getElementsByTagName("img")[i])||this.possibiliteVert(document.getElementsByTagName("img")[i])){
+                this.verifier()
+            }
         }
     }
 
@@ -181,7 +185,7 @@ class Jeu{
             }
         }
     }
-
+    //verifie s il est possible de faire une combinaison verticale de plus de 3 gemmes avec l image jouée
     possibiliteVert(image){
         this.trouves = [];
         this.trouves.push(image);
@@ -267,10 +271,9 @@ class Jeu{
         }
     }
 
+    //verifie s il est possible de faire une combinaison horizontalle de plus de 3 gemmes avec l image jouée
     possibilite(image){
 
-
-        //TODO: gros probleme quand on joue en glissant vers la droite ou la gauche, comme les images sont pas encore changées, la premiere image est reconnue comme etant toujours a la meme place donc comme etant remplacée
         this.trouves = [];
         this.trouves.push(image);
         console.log("condition 1",(parseInt(image.id) == 1 || (parseInt(image.id)-1)%8 !=0));
@@ -407,6 +410,7 @@ class Jeu{
                 var score = parseInt(document.getElementById("score").value);
                 for (let i = 0; i < meilleursScores.length; i++) {
                     if (parseInt(meilleursScores[i])<score){
+                        var id = i+1;
                         var nom = prompt("entrez votre nom en 3 lettres","");
                         var xmlhttp2=new XMLHttpRequest();
                         xmlhttp2.onreadystatechange=function(){
@@ -414,8 +418,9 @@ class Jeu{
 
                             }
                         };
-                        xmlhttp2.open("GET","http://localhost/bejeweled/bejeweled.php?idScore="+i+"&score="+score+"&name="+nom.toUpperCase(),true);
+                        xmlhttp2.open("GET","http://localhost/bejeweled/bejeweled.php?idScore="+id+"&score="+score+"&name="+nom.toUpperCase(),true);
                         xmlhttp2.send();
+                        console.log("http://localhost/bejeweled/bejeweled.php?idScore="+i+"&score="+score+"&name="+nom.toUpperCase());
                         afficherScores();
                         break;
                     }

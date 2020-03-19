@@ -22,7 +22,7 @@ class Jeu{
         clearInterval(this.timer);
     }
 
-    afficherScores(){
+    afficherScores(message){
         console.log("scores");
 
         var xmlhttp=new XMLHttpRequest();
@@ -38,6 +38,7 @@ class Jeu{
                     noms.push(scores[i].childNodes[0].childNodes[0].nodeValue);
                     meilleursScores.push(scores[i].childNodes[1].childNodes[0].nodeValue);
                 }
+                document.getElementById("titre").innerHTML = message;
 
                 var affichage = document.getElementById("affichage-scores");
                 for (let i = 0; i < meilleursScores.length; i++) {
@@ -514,6 +515,7 @@ class Jeu{
                         };
                         xmlhttp2.open("GET","http://localhost/bejeweled/bejeweled.php?idScore="+i+"&score="+score+"&name="+nom.toUpperCase(),true);
                         xmlhttp2.send();
+                        afficherScores();
                         break;
                     }
                 }

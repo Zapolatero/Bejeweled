@@ -7,7 +7,7 @@ function jouer(image){
 function afficherScores() {
     console.log("scoress");
 
-    jeu.afficherScores();
+    jeu.afficherScores("Meilleurs Scores");
 }
 
 function recommencer() {

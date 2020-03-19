@@ -9,11 +9,9 @@ class Jeu{
         this.score = 0;
         this.niveau = 1;
         this.essais = 5;
-        this.noms = [];
-        this.scores = [];
         document.getElementById("message").innerHTML = "";
-        document.getElementById("essais").innerHTML = this.essais;
-        document.getElementById("niveau").innerHTML = "Niveau : "+this.niveau;
+        document.getElementById("essais").value = this.essais;
+        document.getElementById("niveau").value =this.niveau;
         this.timer;
         this.start_countdown();
     }
@@ -77,7 +75,7 @@ class Jeu{
                 this.score += this.niveau * this.trouves.length * 200;
                 break;
         }
-        document.getElementById("score").innerHTML = this.score;
+        document.getElementById("score").value = this.score;
     }
 
     gameOver(){
@@ -88,9 +86,9 @@ class Jeu{
             jeu.arreterChrono();
             stop();
         }
-        document.getElementById("recommencer").style.display="block";
-        document.getElementById("message").innerHTML = "Game over";
-        this.enregistrerScores();
+        document.getElementById("message").innerHTML = "Game over !";
+        console.log(document.getElementById("message").innerHTML)
+        //this.enregistrerScores();
     }
 
     start_countdown(){
@@ -101,13 +99,12 @@ class Jeu{
             if (parseInt(document.getElementById("pbar").value) == 0){
                 jeu.gameOver();
             }
-            if (parseInt(document.getElementById("pbar").value) >=98){
+            if (parseInt(document.getElementById("pbar").value) >=95){
                 jeu.incrementLevel();
                 document.getElementById("pbar").value = 50;
-                document.getElementById("niveau").innerHTML = "Niveau : "+jeu.niveau;
-                decrem+=1;
+                document.getElementById("niveau").value = jeu.niveau;
+                decrem+=2;
             }
-            document.getElementById("counting").innerHTML = "temps restant : " + parseInt(document.getElementById("pbar").value) + " "+decrem;
 
         },1000, this);
     }
@@ -117,12 +114,7 @@ class Jeu{
     }
 
     incrementerBar(){
-        document.getElementById("pbar").value+=5;
-        /*if (parseInt(document.getElementById("pbar").value) >=59){
-            jeu.incrementLevel();
-            document.getElementById("pbar").value = 30;
-            document.getElementById("niveau").innerHTML = "Niveau : "+this.niveau;
-        }*/
+        document.getElementById("pbar").value+=10;
     }
 
     verifier(){
@@ -168,22 +160,18 @@ class Jeu{
                 console.log("image : ",image.id , "image tiree : ",this.gemmeTiree.id);
                 console.log(parseInt(image.id) == (parseInt(this.gemmeTiree.id)-1), parseInt(image.id) , (parseInt(this.gemmeTiree.id))-1,(parseInt(image.id)+1) , parseInt(this.gemmeTiree.id),  (parseInt(image.id)+1) == parseInt(this.gemmeTiree.id))
                 if (parseInt(image.id) == (parseInt(this.gemmeTiree.id)-1) || (parseInt(image.id)) == parseInt(this.gemmeTiree.id)+1 || parseInt(image.id) == (parseInt(this.gemmeTiree.id)-8) || (parseInt(image.id)) == parseInt(this.gemmeTiree.id)+8){
-                    console.log(this.possibilite(image));
-                    console.log("image devrait changer");
                     var temp = image.src;
                     image.src = this.gemmeTiree.src;
                     this.gemmeTiree.src = temp;
-                    if (this.possibiliteVert(image) || this.possibilite(image)){
-                        this.incrementerBar();
-
-                        // this.verifier();
+                    if (this.possibiliteVert(image) || this.possibilite(image) || (this.possibiliteVert(image) && this.possibilite(image))){
+                        this.verifier();
                     }else{
                         var temp = image.src;
                         image.src = this.gemmeTiree.src;
                         this.gemmeTiree.src = temp;
                         this.gemmeTiree = null;
                         this.essais--;
-                        document.getElementById("essais").innerHTML = this.essais;
+                        document.getElementById("essais").value = this.essais;
                         if (this.essais == 0){
                             this.gameOver();
                         }
@@ -212,6 +200,7 @@ class Jeu{
                 console.log("prochain id", id);
             }
             if (this.trouves.length >= 3){
+                this.incrementerBar();
                 this.remplacerVerticale();
                 return true;
             }else{
@@ -233,6 +222,7 @@ class Jeu{
                 console.log("prochain id", id);
             }
             if (this.trouves.length >= 3){
+                this.incrementerBar();
                 this.remplacerVerticale();
                 return true;
             }else{
@@ -267,6 +257,7 @@ class Jeu{
                 console.log("prochain id", id);
             }
             if (this.trouves.length >= 3){
+                this.incrementerBar();
                 this.remplacerVerticale();
                 return true;
             }else{
@@ -295,7 +286,7 @@ class Jeu{
             console.log(this.trouves);
             console.log(this.trouves.length);
             if (this.trouves.length >= 3){
-
+                this.incrementerBar();
                 this.remplacer();
                 return true;
             }else{
@@ -316,7 +307,7 @@ class Jeu{
             console.log(this.trouves);
             console.log(this.trouves.length);
             if (this.trouves.length >= 3){
-
+                this.incrementerBar();
                 this.remplacer();
                 return true;
             }else{
@@ -346,6 +337,7 @@ class Jeu{
             console.log(this.trouves);
             console.log(this.trouves.length);
             if (this.trouves.length>=3){
+                this.incrementerBar();
                 this.remplacer();
                 return true;
             }else{
@@ -353,97 +345,6 @@ class Jeu{
             }
         }
 
-
-
-        //ancien_____________________________________________________________________________________________________________________________________________________________
-        /*var imageGauche = document.getElementById(parseInt(image.id)+1);
-        var imageDroite = document.getElementById(parseInt(image.id)-1);
-        if (imageDroite.src == this.gemmeTiree.src && imageGauche.src == this.gemmeTiree.src){
-            this.trouves.push(image);
-            var id = parseInt(imageGauche.id);
-            // console.log(imageDroite.src == this.gemmeTiree.src && (parseInt(imageDroite.id)+1)%8 !=0);
-            // console.log(imageDroite.src , this.gemmeTiree.src ,(parseInt(imageDroite.id)+1)%8);
-            // console.log(imageGauche.src == this.gemmeTiree.src && (parseInt(imageGauche.id)-1)%8 !=0);
-            // console.log(imageGauche.src , this.gemmeTiree.src , (parseInt(imageGauche.id)-1)%8 );
-            while (document.getElementById(id).src == this.gemmeTiree.src && (parseInt(id)-1)%8 !=0){
-                console.log(document.getElementById(id).id , id);
-                this.trouves.push(document.getElementById(id));
-                id++;
-            }
-             id = parseInt(imageDroite.id);
-            while (document.getElementById(id).src == this.gemmeTiree.src && (parseInt(id)-1)%8 !=0){
-                console.log(document.getElementById(id).id , id);
-                this.trouves.push(document.getElementById(id));
-                id--;
-            }
-            return true;
-        }else if(imageDroite.src == this.gemmeTiree.src && document.getElementById(parseInt(imageDroite.id)-1).src == this.gemmeTiree.src){
-            // this.trouves.push(imageDroite);
-            this.trouves.push(image);
-            // this.trouves.push(document.getElementById(parseInt(imageDroite.id)-1));
-            id = parseInt(imageDroite.id);
-            while (document.getElementById(id).src == this.gemmeTiree.src && (parseInt(id)-1)%8 !=0){
-                console.log(document.getElementById(id).id , id);
-                this.trouves.push(document.getElementById(id));
-                id--;
-            }
-            return true;
-        }else if(imageGauche.src == this.gemmeTiree.src && document.getElementById(parseInt(imageGauche.id)+1).src == this.gemmeTiree.src){
-            this.trouves.push(imageGauche);
-            this.trouves.push(image);
-            // this.trouves.push(document.getElementById(parseInt(imageGauche.id)+1));
-            var id = parseInt(imageGauche.id);
-            while (document.getElementById(id).src == this.gemmeTiree.src && (parseInt(id)-1)%8 !=0){
-                console.log(document.getElementById(id).id , id);
-                this.trouves.push(document.getElementById(id));
-                id++;
-            }
-            return true;
-        }
-
-        var imageHaut = document.getElementById(parseInt(image.id)+8);
-        var imageBas = document.getElementById(parseInt(image.id)-8);
-        if (imageBas.src == this.gemmeTiree.src && imageHaut.src == this.gemmeTiree.src){
-            this.trouves.push(image);
-            var id = imageBas.id;
-            console.log(document.getElementById(id).src == this.gemmeTiree.src && parseInt(id) < 65)
-            while(document.getElementById(id).src == this.gemmeTiree.src && parseInt(id) < 65){
-                this.trouves.push(document.getElementById(id));
-                id += 8;
-            }
-            var id = imageHaut.id;
-            console.log(document.getElementById(id).src == this.gemmeTiree.src && parseInt(id) > 0)
-            while(document.getElementById(id).src == this.gemmeTiree.src && parseInt(id) > 0){
-                this.trouves.push(document.getElementById(id));
-                id -= 8;
-            }
-            console.log(this.trouves);
-            this.remplacerVerticale();
-            return true;
-        }else if(imageHaut.src == this.gemmeTiree.src && document.getElementById(parseInt(imageHaut.id)-8).src == this.gemmeTiree.src){
-            this.trouves.push(image);
-            var id = imageHaut.id;
-            console.log(document.getElementById(id).src == this.gemmeTiree.src && parseInt(id) > 0)
-            while(document.getElementById(id).src == this.gemmeTiree.src && parseInt(id) > 0){
-                this.trouves.push(document.getElementById(id));
-                id -= 8;
-            }
-            console.log(this.trouves);
-            this.remplacerVerticale();
-            return true;
-        }else if(imageBas.src == this.gemmeTiree.src && document.getElementById(parseInt(imageBas.id)+8).src == this.gemmeTiree.src){
-            this.trouves.push(image);
-            var id = imageBas.id;
-            console.log(document.getElementById(id).src == this.gemmeTiree.src && parseInt(id) < 65);
-            while(document.getElementById(id).src == this.gemmeTiree.src && parseInt(id) < 65){
-                this.trouves.push(document.getElementById(id));
-                id += 8;
-            }
-            console.log(this.trouves);
-            this.remplacerVerticale();
-            return true;
-        }
-        return false;*/
     }
 
     remplacer() {
@@ -503,7 +404,7 @@ class Jeu{
                 for (let i = 0; i < scores.length ; i++) {
                     meilleursScores.push(scores[i].childNodes[1].childNodes[0].nodeValue);
                 }
-                var score = parseInt(document.getElementById("score").innerHTML);
+                var score = parseInt(document.getElementById("score").value);
                 for (let i = 0; i < meilleursScores.length; i++) {
                     if (parseInt(meilleursScores[i])<score){
                         var nom = prompt("entrez votre nom en 3 lettres","");

@@ -1,18 +1,42 @@
-#progressBar {
-    width: 90%;
-    margin: 10px auto;
-    height: 22px;
-    background-color: #0A5F44;
+
+@import "../node_modules/tailwindcss/dist/base.css";
+
+@import "../node_modules/tailwindcss/dist/components.css";
+
+@import "../node_modules/tailwindcss/dist/utilities.css";
+
+body{
+    font-family: 'Bungee', cursive;
 }
 
-#progressBar div {
-    height: 100%;
-    text-align: right;
-    padding: 0 10px;
-    line-height: 22px; /* same as #progressBar height if we want text middle aligned */
-    width: 0;
-    background-color: #CBEA00;
-    box-sizing: border-box;
+.title{
+    font-size: 25px;
+}
+
+button{
+    font-size: 18px;
+}
+
+.ath{
+    font-size: 18px;
+}
+
+#message{
+    font-size: 24px;
+}
+
+/* progress bar container */
+
+progress[value]::-webkit-progress-value {
+    background-image:
+            -webkit-linear-gradient(top,
+            rgba(255, 255, 255, .25),
+            rgba(0, 0, 0, .25)),
+            -webkit-linear-gradient(left, #9005BC, #9005BC);
+    /*FFD300*/
+
+    border-radius: 2px;
+    background-size: 35px 20px, 100% 100%, 100% 100%;
 }
 
 /* The Modal (background) */

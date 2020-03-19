@@ -4,6 +4,12 @@ function jouer(image){
 
 }
 
+function afficherScores() {
+    console.log("scoress");
+
+    jeu.afficherScores();
+}
+
 function recommencer() {
     jeu = new Jeu();
 }

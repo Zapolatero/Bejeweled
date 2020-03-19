@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="css/index.css">
     <title>Bejeweled</title>
+
+
 </head>
+
 <body>
 <table>
     <tbody id="tableau">
@@ -12,7 +15,8 @@
     </tbody>
 </table>
 <button onclick="console.clear();">Clear</button>
-<div id="score"></div><style>
+<div id="score"></div>
+<style>
     /* progress bar container */
     #progressbar{
         border:1px solid black;
@@ -55,7 +59,17 @@
 <div>
     essais <span id="essais"></span>
 </div>
-</body>
+<button id="btnScores" onclick="afficherScores()">Scores</button>
+
+<div id="myModal" class="modal">
+
+    <div class="modal-content" >
+        <span class="close">&times;</span>
+        <span id="affichage-scores"></span>
+    </div>
+
+</div>
 <script src="js/Jeu.js"></script>
 <script src="js/script.js"></script>
+</body>
 </html>

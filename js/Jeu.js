@@ -9,6 +9,8 @@ class Jeu{
         this.score = 0;
         this.niveau = 1;
         this.essais = 5;
+        this.noms = [];
+        this.scores = [];
         document.getElementById("message").innerHTML = "";
         document.getElementById("essais").innerHTML = this.essais;
         document.getElementById("niveau").innerHTML = "Niveau : "+this.niveau;
@@ -18,6 +20,44 @@ class Jeu{
 
     arreterChrono(){
         clearInterval(this.timer);
+    }
+
+    afficherScores(){
+        console.log("scores");
+
+        var xmlhttp=new XMLHttpRequest();
+        var noms = [];
+        var meilleursScores = [];
+        xmlhttp.onreadystatechange=function(){
+            if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+                console.log(xmlhttp.responseText);
+                var parser = new DOMParser();
+                var xmlDoc = parser.parseFromString(xmlhttp.responseText, "text/xml");
+                var scores = xmlDoc.getElementsByTagName("score");
+                for (let i = 0; i < scores.length ; i++) {
+                    noms.push(scores[i].childNodes[0].childNodes[0].nodeValue);
+                    meilleursScores.push(scores[i].childNodes[1].childNodes[0].nodeValue);
+                }
+
+                var affichage = document.getElementById("affichage-scores");
+                for (let i = 0; i < meilleursScores.length; i++) {
+                    affichage.innerHTML += "<p>"+meilleursScores[i]+" - "+noms[i]+"</p>";
+                }
+                var modal = document.getElementById("myModal");
+                var span = document.getElementsByClassName("close")[0];
+                modal.style.display = "block";
+                span.onclick = function() {
+                    modal.style.display = "none";
+                };
+                window.onclick = function(event) {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
+                    }
+                }
+            }
+        };
+        xmlhttp.open("GET","http://localhost/bejeweled/bejeweled.php?scores=1",true);
+        xmlhttp.send();
     }
 
     majScore(){
@@ -48,7 +88,8 @@ class Jeu{
             stop();
         }
         document.getElementById("recommencer").style.display="block";
-        document.getElementById("message").innerHTML = "Game over"
+        document.getElementById("message").innerHTML = "Game over";
+        this.enregistrerScores();
     }
 
     start_countdown(){
@@ -446,5 +487,39 @@ class Jeu{
         }
 
          this.trouves = []
+    }
+
+    enregistrerScores(scores) {
+        var xmlhttp=new XMLHttpRequest();
+        var noms = [];
+        var meilleursScores = [];
+        xmlhttp.onreadystatechange=function(){
+            if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+                console.log(xmlhttp.responseText);
+                var parser = new DOMParser();
+                var xmlDoc = parser.parseFromString(xmlhttp.responseText, "text/xml");
+                var scores = xmlDoc.getElementsByTagName("score");
+                for (let i = 0; i < scores.length ; i++) {
+                    meilleursScores.push(scores[i].childNodes[1].childNodes[0].nodeValue);
+                }
+                var score = parseInt(document.getElementById("score").innerHTML);
+                for (let i = 0; i < meilleursScores.length; i++) {
+                    if (parseInt(meilleursScores[i])<score){
+                        var nom = prompt("entrez votre nom en 3 lettres","");
+                        var xmlhttp2=new XMLHttpRequest();
+                        xmlhttp2.onreadystatechange=function(){
+                            if (xmlhttp2.readyState==4 && xmlhttp2.status==200) {
+
+                            }
+                        };
+                        xmlhttp2.open("GET","http://localhost/bejeweled/bejeweled.php?idScore="+i+"&score="+score+"&name="+nom.toUpperCase(),true);
+                        xmlhttp2.send();
+                        break;
+                    }
+                }
+            }
+        };
+        xmlhttp.open("GET","http://localhost/bejeweled/bejeweled.php?scores=1",true);
+        xmlhttp.send();
     }
 }

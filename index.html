@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/index.css">
+    <title>Bejeweled</title>
+</head>
+<body>
+<table>
+    <tbody id="tableau">
+
+    </tbody>
+</table>
+<button onclick="console.clear();">Clear</button>
+<div id="score"></div><style>
+    /* progress bar container */
+    #progressbar{
+        border:1px solid black;
+        width:200px;
+        height:20px;
+        position:relative;
+        color:black;
+    }
+    /* color bar */
+    #progressbar div.progress{
+        position:absolute;
+        width:0;
+        height:100%;
+        overflow:hidden;
+        background-color:#369;
+    }
+    /* text on bar */
+    #progressbar div.progress .text{
+        position:absolute;
+        text-align:center;
+        color:white;
+    }
+    /* text off bar */
+    #progressbar div.text{
+        position:absolute;
+        width:100%;
+        height:100%;
+        text-align:center;
+    }
+</style>
+
+<progress value="50" max="100" id="pbar" ></progress><p id="counting">10</p>
+<div id="recommencer" hidden>
+    <button onclick="jeu.arreterChrono(); jeu = new Jeu(); document.getElementById('pbar').value = 50;" >Recommencer</button>
+    <div id="message"></div>
+</div>
+<div id="niveau">
+
+</div>
+<div>
+    essais <span id="essais"></span>
+</div>
+</body>
+<script src="js/Jeu.js"></script>
+<script src="js/script.js"></script>
+</html>

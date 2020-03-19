@@ -129,7 +129,7 @@ class Jeu{
     }
 
     imageAleatoire(){
-        return "assets/gem"+(Math.floor(Math.random() * 6) +1)+".png";
+        return "assets/gem"+(Math.floor(Math.random() * 8) +1)+".png";
     }
 
     //rempli le tableau avec des images et affecte a chaque image un id permettant de retrouver sa position
@@ -141,7 +141,7 @@ class Jeu{
         for (let i = 0; i < 8; i++) {
             html+="<tr>";
             for (let j = 0; j < 8; j++) {
-                html+="<td  ><img onclick='jouer(this)' id='"+nbImages+"' height='50' width='50' src='assets/gem"+(Math.floor(Math.random() * 6) +1)+".png'></img></td>";
+                html+="<td  ><img onclick='jouer(this)' id='"+nbImages+"' height='50' width='50' src='assets/gem"+(Math.floor(Math.random() * 8) +1)+".png'></img></td>";
                 nbImages++;
             }
             html+="</tr>"
